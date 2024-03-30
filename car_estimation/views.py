@@ -7,7 +7,8 @@ from .forms import CarPricePredictionForm
 from .models import Car
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from django.shortcuts import render
+from django.http import HttpResponse
 
 
 class MyAPIView(APIView):
@@ -31,8 +32,10 @@ class MyAPIView(APIView):
         data = {'message': 'This is a POST request'}
         return Response(data, status=status.HTTP_201_CREATED)
 
-
- 
+#THIS FUNCTION IS USELESS, CREATED FOR TESTING ONLY !!! 
+def predict_car_price(brand, model, year, mileage, transmission, engine_type, fuel_type):
+    # Simulate machine learning model prediction 
+    return 20000  # Example estimated price
 
 def index(request):
     if request.method == 'POST':
@@ -46,12 +49,18 @@ def index(request):
             transmission = form.cleaned_data['transmission']
             engine_type = form.cleaned_data['engine_type']
             fuel_type = form.cleaned_data['fuel_type']
-            
+
             # (save to database)
+
+             # Simulate prediction using a the function simulating a trained machine learning model
+            estimated_price = predict_car_price(brand, model, year, mileage, transmission, engine_type, fuel_type)
             
-            # Render success.html with form data
-            return render(request, 'success.html', {'form_data': form.cleaned_data})
+             # Render the success page with the form data and estimated price
+            return render(request, 'success.html', {'form_data': form.cleaned_data, 'estimated_price': estimated_price})        
     else:
         form = CarPricePredictionForm()
   
     return render(request, 'index.html', {'form': form})
+
+
+
