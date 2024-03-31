@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+</head>
+<body>
+    <h1>Form Submitted Successfully</h1>
+    <p>Thank you for submitting the form. Here is the data you provided:</p>
+    <ul>
+        <li><strong>Brand:</strong> {{ form_data.brand }}</li>
+        <li><strong>Model:</strong> {{ form_data.model }}</li>
+        <li><strong>Year:</strong> {{ form_data.year }}</li>
+        <li><strong>Mileage:</strong> {{ form_data.mileage }}</li>
+        <li><strong>Transmission:</strong> {{ form_data.transmission }}</li>
+        <li><strong>Engine Type:</strong> {{ form_data.engine_type }}</li>
+        <li><strong>Fuel Type:</strong> {{ form_data.fuel_type }}</li>
+        <li><strong>Estimated Price:</strong> {{ estimated_price }}</li>
+    </ul>
+</body>
+</html>
