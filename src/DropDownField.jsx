@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 
-function DatalistOptions({ csvFilePath, column }) {
+function DatalistOptions({ csvFilePath, column, brand = "" }) {
   const [options, setOptions] = useState([]);
     
   useEffect(() => {
@@ -9,14 +9,17 @@ function DatalistOptions({ csvFilePath, column }) {
       download: true,
       header: true,
       complete: (result) => {
-        const uniqueOptions = [...new Set(result.data.map((row) => row[column]))];
+        let filteredData = result.data;
+        if (brand && column === "Model") {
+          filteredData = filteredData.filter(row => row.Brand === brand);
+        }
+        const uniqueOptions = [...new Set(filteredData.map(row => row[column]))];
         setOptions(uniqueOptions);
       },
     });
-  }, [csvFilePath, column]);
+  }, [csvFilePath, column, brand]);
 
   return (
-    
     <datalist id={`options-${column}`}>
       {options.map((option, index) => (
         <option key={index} value={option} />
@@ -26,5 +29,3 @@ function DatalistOptions({ csvFilePath, column }) {
 }
 
 export default DatalistOptions;
- 
- 
