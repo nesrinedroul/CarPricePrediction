@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import DatalistOptions from './DropDownField';
-
+import './myforrm.css';
 function FormComponent() {
   const csvFilePath = "/cleaneddata.csv";
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [formData, setFormData] = useState({
-    brand: '',
-    model: '',
     year: '',
     kilometer: '',
     fuelType: '',
@@ -18,6 +16,8 @@ function FormComponent() {
     maxPower: '',
     seats: '',
   });
+  const [responseMessage, setResponseMessage] = useState("");
+  const [submittedData, setSubmittedData] = useState(null);
 
   useEffect(() => {
     setFormData(prev => ({
@@ -26,10 +26,6 @@ function FormComponent() {
       model: selectedModel,
     }));
   }, [selectedBrand, selectedModel]);
-
-  useEffect(() => {
-    setSelectedModel("");
-  }, [selectedBrand]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,32 +38,36 @@ function FormComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Here, you can replace the URL with your actual API endpoint
-    const apiUrl = 'http://naila04.pythonanywhere.com/';
+    // Combine formData with brand and model for the submission
+    // since formData already includes brand and model, just use formData as is
+    const fullData = { ...formData };
+
+    setSubmittedData(fullData); // Optionally display the submitted data
+
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch('http://naila04.pythonanywhere.com/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(fullData),
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Error: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      console.log('Success:', data);
-      // Here you can handle the success response, e.g., showing a message to the user
+      const responseData = await response.json();
+      setResponseMessage(`Success: ${responseData.message}`);
     } catch (error) {
-      console.error('Error:', error);
-      // Here you can handle errors, e.g., showing an error message to the user
+      console.error('Submission failed', error);
+      setResponseMessage(`Submission failed: ${error.message}`);
     }
   };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="form-container">
+      <form onSubmit={handleSubmit} className='Myform'>
+      <div className="form-group">
       <label htmlFor="Brand">Brand:</label>
       <input 
         list="options-Brand" 
@@ -78,7 +78,8 @@ function FormComponent() {
         onChange={(e) => setSelectedBrand(e.target.value)} 
       />
       <DatalistOptions csvFilePath={csvFilePath} column="Brand" />
-
+</div>
+<div className="form-group">
       <label htmlFor="Model">Model:</label>
       <input 
         list="options-Model" 
@@ -92,8 +93,9 @@ function FormComponent() {
         csvFilePath={csvFilePath} 
         column="Model" 
         brand={selectedBrand} 
-      />
+      /></div>
       {/* Year */}
+      <div className="form-group">
       <label htmlFor="Year">Year:</label>
       <input
         type="number"
@@ -105,8 +107,9 @@ function FormComponent() {
         onChange={handleChange}
         required
       />
-
+</div>
       {/* Kilometer */}
+      <div className="form-group">
       <label htmlFor="Kilometer">Kilometer:</label>
       <input
         type="number"
@@ -116,9 +119,10 @@ function FormComponent() {
         value={formData.kilometer}
         onChange={handleChange}
         required
-      />
+      /></div>
 
       {/* Fuel Type */}
+      <div className="form-group">
       <label htmlFor="Fuel_type">Fuel Type:</label>
       <input
         list="options-Fuel_type"
@@ -129,8 +133,9 @@ function FormComponent() {
         required
       />
       <DatalistOptions csvFilePath={csvFilePath} column="Fuel_type" />
-
+</div>
       {/* Seller Type */}
+      <div className="form-group">
       <label htmlFor="Seller_type">Seller Type:</label>
       <input
         list="options-Seller_type"
@@ -141,8 +146,9 @@ function FormComponent() {
         required
       />
       <DatalistOptions csvFilePath={csvFilePath} column="Seller_type" />
-
+</div>
       {/* Transmission */}
+      <div className="form-group">
       <label htmlFor="Transmission">Transmission:</label>
       <input
         list="options-Transmission"
@@ -153,8 +159,9 @@ function FormComponent() {
         required
       />
       <DatalistOptions csvFilePath={csvFilePath} column="Transmission" />
-
+</div>
       {/* Owner */}
+      <div className="form-group">
       <label htmlFor="Owner">Owner:</label>
       <input
         list="options-Owner"
@@ -165,12 +172,14 @@ function FormComponent() {
         required
       />
       <DatalistOptions csvFilePath={csvFilePath} column="Owner" />
-
+</div>
       {/* Engine */}
+      <div className="form-group">
       <label htmlFor="Engine">Engine:</label>
       <input list="options-Engine" id="Engine" name="Engine" value={formData.Engine}required onChange={handleChange}/>
       <DatalistOptions csvFilePath={csvFilePath} column="Engine" />
-      {/* Max Power */}
+      </div>{/* Max Power */}
+      <div className="form-group">
       <label htmlFor="Max_power">Max Power:</label>
       <input
         type="text"
@@ -180,7 +189,9 @@ function FormComponent() {
         onChange={handleChange}
       />
  <DatalistOptions csvFilePath={csvFilePath} column="Max_power" />
+ </div>
       {/* Seats */}
+      <div className="form-group">
       <label htmlFor="Seats">Seats:</label>
       <input
         type="number"
@@ -192,8 +203,17 @@ function FormComponent() {
         onChange={handleChange}
       />
    <DatalistOptions csvFilePath={csvFilePath} column="Seats" />
+   </div>
       <button type="submit">Submit</button>
     </form>
+      {submittedData && (
+        <div>
+          <h2>Form Submitted Successfully</h2>
+          <h3>Submitted Data:</h3>
+          <pre>{JSON.stringify(submittedData, null, 2)}</pre>
+        </div>
+      )}
+    </div>
   );
 }
 
