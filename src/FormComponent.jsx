@@ -43,7 +43,7 @@ function FormComponent() {
     const fullData = { ...formData };
 
     setSubmittedData(fullData); // Optionally display the submitted data
-
+// request
     try {
       const response = await fetch('http://naila04.pythonanywhere.com/', {
         method: 'POST',
