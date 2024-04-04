@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DatalistOptions from './DropDownField';
-import './myforrm.css';
+import "/myforrm.css";
 function FormComponent() {
   const csvFilePath = "/cleaneddata.csv";
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -43,7 +43,7 @@ function FormComponent() {
     const fullData = { ...formData };
 
     setSubmittedData(fullData); // Optionally display the submitted data
-
+// request
     try {
       const response = await fetch('http://naila04.pythonanywhere.com/', {
         method: 'POST',
