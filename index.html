@@ -5,25 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="myforrm.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>PricePredictor</title>
   </head>
   <body>
-    <div class="navbar">
-
+    <header >
       <nav>
-          <img src='/logo.png' alt="pc" class="logo"></img>
-          <ul>
-            <li><a href="#">home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li> <li><button>estimate</button></li>
+          <a href="#"><img src='/logoo.png' alt="pc" class="logo"></img></a>
+          <box-icon name='menu'></box-icon>
+          <ul class="navbar">
+            <li><a href="#home">home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li> <li><button>estimate</button></li>
           </ul>
-         
       </nav>
-      <div class="content">
+      </header>
+      <main>
         <h1>ESTIMIHALI</h1>
-        <a href="#">Estimate</a>
-      </div>
-     </div>
+       <p>this is a price estimator built by computer science student 2nd year</p>
+        <button>Estimate</button>
+      </main>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
