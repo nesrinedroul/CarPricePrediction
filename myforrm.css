@@ -2,94 +2,346 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'poppins',sans-serif;
+    font-family:'poppins',sans-serif;
+    scroll-padding-top: 1rem;
+    scroll-behavior: smooth;
+    text-decoration: none;
+}
+img {
+   width: 100%;
 }
 body{
-    background-image: linear-gradient(rgba(243, 149, 7, 0.3),rgba(255, 47, 0, 0.3));
+   background-color: rgb(255, 255, 255);
 }
-.navbar{
-    width: 100%;
-    height: 110vh;
-    position: relative;
-    padding: 0 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+section{
+   padding:3rem 0 2rem ;
 }
- nav{
+
+header{
     width: 100%;
-    position: absolute;
-    top: 1px;
+   
+    position: fixed;
+    display:block;
+    top: 0;
     left: 0;
-    padding: 20px 8%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    z-index: 100;
+}
+.container{
+   max-width: 1068px;
+   margin-left: auto;
+   margin-right: auto;
+}
+ .nav{
+   padding: 17px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  background-color: rgb(0, 0, 0);
  }
- nav .logo{
-    width: 200px;
+ #menu-icon{
+   font-size: 24px;
+   cursor: pointer;
+   color: black;
+   display: none;
  }
- nav ul li {
+ .logo{
+    width: 180px;
+ }
+ .navbar{
+   display: flex;
+   column-gap: 2rem;
+ }
+ .navbar a{
+   color: rgb(255, 255, 255);
+   font-size: 16px;
+   text-transform: uppercase;
+   font-weight: 500;
+   transition: transform 0.5s ease;
+ }
+ .navbar a:hover,.navbar .active
+ {
+ color: rgb(255, 255, 255);
+ border-bottom: 3px solid rgb(0, 244, 171);
+ }
+ 
+ header ul li {
     list-style: none;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 30px;
  }
- nav ul li button {
-    padding:  7px 16px 7px 16px;
-    margin-left: 10px;
-    border-radius: 50px;
-    border: none;
-    background-color: rgb(249, 154, 249);
+ #est {
+  padding:  10px 18px 10px 18px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+#est:hover{
+ background-color: rgb(10, 249, 161);
+ color: rgb(45, 41, 41);
+}
+
+  
+.home{
+   max-width: 1300px;
+   margin:auto;
+   width: 100%;
+   min-height:660px ;
+   display: flex;
+   align-items: center;
+   background-repeat: no-repeat;
+   background-image: url('/white.jpg');
+   background-size: cover;
+}
+
+.home-text{
+   padding-right: 590px;
+   padding-left: 35px;
+   padding-bottom: 48px;
+   color: rgb(255, 255, 255);
+}
+.home-text h1{
+   font-size: 2.7rem;
+   margin-bottom: 16px;
+   color: rgb(255, 255, 255);
+   text-transform: uppercase;
+}
+.home-text p{
+   font-size: 0.95rem;
+   font-weight:300;
+   margin: 1.2rem 0 1.2rem;
+   color: #ffffff;
+   margin-bottom: 27px;
+}
+
+.get{
+   padding: 10px 22px;
+   background-color:rgb(10, 239, 158) ;
+   color: rgb(45, 42, 42);
+   font-weight: 400;
+   border-radius: 6px;
+   border: none;
+   transition: transform 0.5s ease;
+}
+.get:hover{
+   background-color: rgb(255, 255, 255);
+   color:rgb(10, 238, 173) ;
+   
  }
- nav ul li a{
-    text-decoration: none;
-    color: rgb(240, 8, 8);
-    font-size: medium;
+ .heading{
+   text-align: center;
+ }
+ .heading span{
+   font-size: 30px;
+   font-weight: 500;
+   color: rgb(0, 183, 255);
+ }
+ .heading p{
+   font-size: 1.4rem;
+   font-weight: 300;
+ }
+ .car-container{
+display: flex;
+flex-wrap: wrap;
+gap: 2rem;
+margin: 1.3rem;
+gap: 15px;
+ }
+ .box{
+flex: 1 1 17rem;
+position: relative;
+height: 220px;
+border-radius: 2rem;
+overflow: hidden;
+
+ }
+ .box img{
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   overflow: hidden;
+ }
+  .box img:hover{
+   transform: scale(1.1);
+   transition: 0.5s;
+   cursor: pointer;
+ }
+ .box h2{
+   position: absolute;
+   bottom:1rem ;
+   left:1rem;
+   font-weight: 400;
+   font-size: 1rem;
+   background-color: rgb(5, 242, 167);
+   padding: 8px;
+   border-radius: 0.5rem;
+   color: white;
+ }
+ 
+  .box h2:hover{
+   background-color: rgb(255, 255, 255);
+   color: rgb(3, 229, 176);
  }
  @keyframes typing {
     from { width: 0; }
-    to { width: 100%; }
+    to { width: 80%; }
   }
-
   @keyframes blink-caret {
     from, to { border-color: transparent; }
-    50% { border-color: rgb(255, 125, 240); }
+    50% { border-color: rgb(255, 255, 255); }
   }
- .content{
-    text-align: center;
- }
- .content h1 {
+
+.home-text h1 {
     font-family: 'poppins';
-    overflow: hidden; /* Ensures the content is not revealed until the animation */
-    border-right: .15em solid black; /* The typwriter cursor */
-    white-space: nowrap; /* Keeps the content on a single line */
-    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-    letter-spacing: .15em; /* Adjust as needed */
-    animation: 
-      typing 1.5s steps(20, end),
-      blink-caret .75s step-end infinite;
-  }
- .content a{
-    text-decoration: none;
-    display: inline-block;
-    color: rgb(0, 80, 193);
-    font-size: 20px;
-    border: 2px solid black;
-    padding: 14px 24px;
-    border-radius: 50px;
-    margin-top: 20px;
- }
-.form-container {
-    display: flex; /* Use flexbox layout */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    height: 100vh; /* Adjust height as needed */
-  }
-  .Myform {
-    width: 300px; /* Adjust form width as needed */
-  }
+    overflow: hidden; 
+    border-right: 0.15em solid rgb(255, 255, 255);
+    white-space: nowrap; 
+    margin: 10 auto; 
+    letter-spacing: 0.15em; 
+    animation: typing 3s steps(20, end),
+      blink-caret 0.75s step-end infinite;
+      width: fit-content;
+      transform: uppercase;
+}
+/* The Modal (background) */
+.modalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+.myModal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+.modal-content h1 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+/* Modal Content/Box */
+.modal-content {
+  position: relative;
+  background-color: #0eeaa0;
+  margin: 5% auto; /* 15% from the top and centered */
+  padding: 40px;
+  border: 1px solid #ffffff;
+  width: 60%; /* Could be more or less, depending on screen size */
+  z-index: 20;
+}
+.details{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   
-  .form-group {
-    margin-bottom: 15px; /* Add space between form groups */
-    padding: 1px;
-  }
+}
+.form-group{
+  width: calc(100%/2 - 2px);
+}
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: rgb(74, 71, 71);
+  text-transform: uppercase;
+}
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  background: #201f1f;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  color: rgb(9, 237, 161);
+  outline: none;
+}
+
+#sub ,.close-btn{
+  background-color: rgb(51, 53, 52);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+#sub:hover, .close-btn:hover {
+  background-color: rgb(255, 255, 255);
+  color: #272525;
+}
+/* The Close Button */
+.close {
+  color: #000000;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+.site-footer {
+  background-color: #333;
+  color: #fff;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+.container-fot {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+}
+
+.social-links {
+  list-style: none;
+  margin-left: 20px;
+  display: flex;
+}
+
+.social-links li {
+  margin-right: 10px;
+}
+
+.social-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
