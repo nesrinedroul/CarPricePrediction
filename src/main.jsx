@@ -21,6 +21,11 @@ ReactDOM.createRoot(document.getElementById('mymain')).render(
  
 
 );
+ReactDOM.createRoot(document.getElementById('Cars')).render(
+  <ModalProvider>
+    <CarsComp />
+    </ModalProvider>
+);
 
 // Render Section Component
 ReactDOM.createRoot(document.getElementById('sections')).render(
@@ -35,11 +40,6 @@ ReactDOM.createRoot(document.getElementById('features')).render(
 );
 
 // Render Cars Component
-ReactDOM.createRoot(document.getElementById('Cars')).render(
-  <ModalProvider>
-    <CarsComp />
-    </ModalProvider>
-);
 
 // Render Main App (with ModalProvider at the top level if it's not already included in App)
 ReactDOM.createRoot(document.getElementById('Root')).render(
