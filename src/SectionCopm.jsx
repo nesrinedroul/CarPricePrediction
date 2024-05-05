@@ -6,7 +6,7 @@ function SectionComp() {
     const controls = useAnimation();
     const { ref, inView } = useInView({
         triggerOnce: true,
-        threshold: 0.5  // Adjust this value based on when you want the animation to start
+        threshold: 0.5 
     });
 
     React.useEffect(() => {
