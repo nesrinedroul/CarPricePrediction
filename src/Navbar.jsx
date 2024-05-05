@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useModal } from './ModalContext'; // Check the path for correctness
+import { useModal } from './ModalContext'; 
 
 function Thenavbar() {
     const { openModal } = useModal(); // Destructure directly from the hook

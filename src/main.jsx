@@ -7,7 +7,7 @@ import Appp from './Appp'; // Your main app component
 import { ModalProvider } from './ModalContext'; // Adjust path as needed
 import Features from './Featues';
 import Footer from './Footer';
-import Mymain from './MyMain';
+
 
 // Render Navbar
 ReactDOM.createRoot(document.getElementById('navigation')).render(
@@ -15,12 +15,7 @@ ReactDOM.createRoot(document.getElementById('navigation')).render(
       <Thenavbar />
     </ModalProvider>
 );
-ReactDOM.createRoot(document.getElementById('mymain')).render(
 
-  <Mymain />
- 
-
-);
 ReactDOM.createRoot(document.getElementById('Cars')).render(
   <ModalProvider>
     <CarsComp />
@@ -39,7 +34,6 @@ ReactDOM.createRoot(document.getElementById('features')).render(
  </ModalProvider>
 );
 
-// Render Cars Component
 
 // Render Main App (with ModalProvider at the top level if it's not already included in App)
 ReactDOM.createRoot(document.getElementById('Root')).render(

@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 import ScrollReveal from 'scrollreveal';
+import { useModal } from './ModalContext'; 
 
 function Mymain() {
+    const { openModal } = useModal(); // Destructure directly from the hook
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage menu visibility
+
+   
     useEffect(() => {
         // Initialize ScrollReveal
         ScrollReveal().reveal('.home__title, .home__subtitle, .home__elec', {
@@ -64,7 +70,7 @@ function Mymain() {
                             <h3 className="home__car-name">BATTERY</h3>
                         </div>
                     </div>
-                    <a href="#" className="home__button">START</a>
+                    <a  className="home__button" onClick={openModal}>START</a>
                 </div>
             </section>
         </main>
