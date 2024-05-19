@@ -9,12 +9,13 @@ from . import views
 
 
 # Define URL patterns
-urlpatterns = [
-    path('', views.MyAPIView.as_view(), name='my-api-view'),  # URL pattern for the index view
-    path('api/myview/', views.MyAPIView.as_view(), name='my-api-view'),  # URL pattern for MyAPIView
-    # URL patterns for Swagger UI and ReDoc
-    path('api_schema/', get_schema_view(title='API Schemas', description = 'Guide for REST API'), name= 'api_schema'),
-    # idk about this one path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+urlpatterns = [ 
+
+    # URL patterns for MyAPIView
+    path('', views.MyAPIView.as_view(), name='my-api-view'), 
+    path('api/myview/', views.MyAPIView.as_view(), name='my-api-view'), 
+
+    # URL pattern for Swagger UI 
     path('swagger-ui/', TemplateView.as_view(  template_name='docs.html', extra_context={'schema_url':'api_schema'} ), name='swagger-ui'),
-    #path('success/', views.index, name='success_page'),
+    path('api_schema/', get_schema_view(title='API Schemas', description = 'Guide for REST API'), name= 'api_schema'),
 ]
