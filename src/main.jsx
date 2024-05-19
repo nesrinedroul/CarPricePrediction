@@ -7,6 +7,7 @@ import Appp from './Appp'; // Your main app component
 import { ModalProvider } from './ModalContext'; // Adjust path as needed
 import Features from './Featues';
 import Footer from './Footer';
+import StatisticsPage from './StaticsPage';
 
 
 // Render Navbar
@@ -33,9 +34,6 @@ ReactDOM.createRoot(document.getElementById('features')).render(
     <Features />
  </ModalProvider>
 );
-
-
-// Render Main App (with ModalProvider at the top level if it's not already included in App)
 ReactDOM.createRoot(document.getElementById('Root')).render(
   <ModalProvider>
   <Appp />
@@ -46,5 +44,8 @@ ReactDOM.createRoot(document.getElementById('footer')).render(
     <Footer/>
   
 );
+ReactDOM.createRoot(document.getElementById('STAT')).render(
+  
+  <StatisticsPage/>
 
-
+);

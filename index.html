@@ -9,25 +9,47 @@
        <link rel="shortcut icon" href="=img/favicon.png" type="image/x-icon">
 
        <!-- REMIX ICONS -->
-       <link rel="stylesheet" href="assests/css/swiper.css">
+       
        <link
 href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
        rel="stylesheet"
    />
-   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+   
       
     <title>PricePredictor</title>
   </head>
   <body>
     <div id="navigation"></div>
     <div id="Root"></div>
-     <div id="sections"></div> <div id="Cars"></div>
+  
+     <div id="sections"></div>
+     <div id="Cars"></div> 
+       <div id="chart"></div>
+
+        <div id="STAT"></div> 
      <div id="features"></div>
-    <div id="footer"></div> 
+     <div id="footer"></div> 
     
     <!-- MAIN JS -->
   
       <script type="module" src="/src/main.jsx"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const header = document.querySelector(".header");
+            let lastScrollTop = 0;
+
+            window.addEventListener("scroll", function () {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop) {
+                    // Scroll down
+                    header.style.top = "-1000px"; // Adjust this value based on your header height
+                } else {
+                    // Scroll up
+                    header.style.top = "0";
+                }
+                lastScrollTop = scrollTop;
+            });
+        });</script>
       
   </body>
 </html>

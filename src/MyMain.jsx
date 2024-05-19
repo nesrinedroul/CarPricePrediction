@@ -11,23 +11,23 @@ function Mymain() {
     useEffect(() => {
         // Initialize ScrollReveal
         ScrollReveal().reveal('.home__title, .home__subtitle, .home__elec', {
-            duration: 1000,
+            duration: 900,
             origin: 'top',
             distance: '50px',
             delay: 300
         });
         ScrollReveal().reveal('.home__car-data', {
-            duration: 1000,
+            duration: 900,
             origin: 'left',
             distance: '50px',
-            delay: 600,
+            delay: 400,
             interval: 200
         });
         ScrollReveal().reveal('.home__button', {
             duration: 1000,
             origin: 'bottom',
             distance: '50px',
-            delay: 900
+            delay: 700
         });
     }, []);
 
@@ -38,7 +38,7 @@ function Mymain() {
                 <div className="shape shape__small"></div>
                 <div className="home__container conatiner grid">
                     <div className="home__data">
-                        <h1 className="home__title">Choose the best car</h1>
+                        <h1 className="home__title">GET THE MOST ACCURATE PRICES</h1>
                         <h2 className="home__subtitle">Porsche mission E</h2>
                         <h3 className="home__elec">
                             <i className="ri-flashlight-fill"> cars </i>
@@ -70,7 +70,7 @@ function Mymain() {
                             <h3 className="home__car-name">BATTERY</h3>
                         </div>
                     </div>
-                    <a  className="home__button" onClick={openModal}>START</a>
+                    <a  className="home__button" onClick={openModal}>ESTIMATE</a>
                 </div>
             </section>
         </main>

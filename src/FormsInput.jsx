@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import DatalistOptions from './DropDownField';
 import { useModal } from './ModalContext';
-import "/myforrm.css";
+
 
 function FormsInput() {
-  const csvFilePath = "/final_concat5.csv";
+  const csvFilePath = "/myData.csv";
   const { modalIsOpen, closeModal } = useModal();
   const [selectedbrand, setSelectedbrand] = useState("");
   const [selectedmodel, setSelectedmodel] = useState("");
   const [formData, setFormData] = useState({
-    brand: '',
-    model: '',
-    engine_type: '',
-    nb_of_doors:'',
+    brand:'',
+    model:'',
     year:'',
-    transmission: '', 
-    fuel_type: '' ,
-    driven_kilometer: ''
+    kilometer:'',
+    engine :'',
+    transmission:'',
+    fuel :'',
+    nb_of_doors:'', 
   });
   const [responseMessage, setResponseMessage] = useState("");
   const [submittedData, setSubmittedData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Declare isLoading state
-  const [predictedPrice, setPredictedPrice] = useState(null); // Declare predictedPrice state
-  const [showPredictedPrice, setShowPredictedPrice] = useState(false); // Flag to show predicted price
-  
+  const [isLoading, setIsLoading] = useState(false);
+  const [predictedPrice, setPredictedPrice] = useState(null);
+
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
@@ -43,41 +42,70 @@ function FormsInput() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const fullData = { ...formData };
-    
-    try {
-      setIsLoading(true); // Start loading
-      const response = await fetch('https://naila04.pythonanywhere.com/api/myview/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(fullData),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-      const responseData = await response.json();
-      setResponseMessage(`Success: ${responseData.message}`);
-      setPredictedPrice(responseData.predicted_price); // Update predictedPrice state
 
-  
+    // Log form data before submitting
+    console.log('Submitting form with data:', fullData);
+
+    // Mocking the backend response
+    try {
+      setIsLoading(true); // Set loading state
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Mock response data
+      const responseData = {
+        message: 'Mock submission successful!',
+        predicted_price: "25.000$" // Example predicted price
+      };
+      setResponseMessage(`Success: ${responseData.message}`);
+      setPredictedPrice(responseData.predicted_price);
+      setSubmittedData(fullData); // Set submitted data to display it later
+
+      console.log('Mock response data:', responseData);
+
     } catch (error) {
       console.error('Submission failed', error);
       setResponseMessage(`Submission failed: ${error.message}`);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false); // Reset loading state
     }
   };
-  console.log(`${predictedPrice}`);
+
   return (
     <div> 
-    <div className={modalIsOpen ? 'myModal' : 'myModal hidden'}>
-      <div className="modal-content">
-        <span className="close" onClick={closeModal}>&times;</span>
-        <h1>PREDICT THE PRICE</h1>
-        {!submittedData ? (
-          <form onSubmit={handleSubmit} action='#'>
+      <div className={modalIsOpen ? 'myModal' : 'myModal hidden'}>
+        <div className="modal-content">
+          <div className="close" onClick={closeModal}>&times;</div>
+          <h1>PREDICT THE PRICE</h1>
+          {submittedData ? (
+            <div className="results-container">
+              <div className="data-column">
+                <h3>Chosen Data</h3>
+              <p>
+    <div>Brand: {submittedData.brand}</div>
+    <div>Model: {submittedData.model}</div>
+  </p>
+  <p>
+    <div>Year: {submittedData.year}</div>
+    <div>Kilometer: {submittedData.kilometer}</div>
+  </p>
+  <p>
+    <div>Fuel: {submittedData.fuel}</div>
+    <div>Engine: {submittedData.engine}</div>
+  </p>
+  <p>
+    <div>Door's number {submittedData.nb_of_doors}</div>
+    <div>Transmission: {submittedData.transmission}</div>
+  </p>
+              
+                <button className='close-btn' onClick={() => setSubmittedData(null)}>Close</button>
+              </div>
+              <div className="price-column">
+                <h2>Estimated Price: {predictedPrice}</h2>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} action='#'>
               <div className="details">
                 {/* Brand */}
                 <div className="form-group">
@@ -106,34 +134,9 @@ function FormsInput() {
                   <DatalistOptions 
                     csvFilePath={csvFilePath} 
                     column="model" 
-                    brand={selectedbrand} 
+                    filter={selectedbrand} 
+                    filterColumn="brand" 
                   />
-                </div>
-                {/* Engine Type */}
-                <div className="form-group">
-                  <label htmlFor="engine_type">Engine Type:</label>
-                  <input 
-                    list="options-engine_type" 
-                    id="engine_type" 
-                    name="engine_type" 
-                    value={formData.engine_type}
-                    required
-                    onChange={handleChange} 
-                  />
-                  <DatalistOptions csvFilePath={csvFilePath} column="engine_type" />
-                </div>
-                {/* Number of Doors */}
-                <div className="form-group">
-                  <label htmlFor="nb_of_doors">Number of Doors:</label>
-                  <input 
-                    list="options-nb_of_doors" 
-                    id="nb_of_doors" 
-                    name="nb_of_doors" 
-                    value={formData.nb_of_doors}
-                    required
-                    onChange={handleChange} 
-                  />
-                  <DatalistOptions csvFilePath={csvFilePath} column="nb_of_doors" />
                 </div>
                 {/* Year */}
                 <div className="form-group">
@@ -149,6 +152,55 @@ function FormsInput() {
                     onChange={handleChange} 
                   />
                 </div>
+                {/* Driven Kilometer */}
+                <div className="form-group">
+                  <label htmlFor="kilometer">Driven Kilometer:</label>
+                  <input 
+                    type="number"
+                    id="kilometer" 
+                    name="kilometer" 
+                    min="0" 
+                    value={formData.kilometer}
+                    required
+                    onChange={handleChange} 
+                  />
+                </div>  
+                {/* Fuel Type */}
+                <div className="form-group">
+                  <label htmlFor="fuel">Fuel Type:</label>
+                  <input 
+                    list="options-fuel" 
+                    id="fuel" 
+                    name="fuel" 
+                    value={formData.fuel}
+                    required
+                    onChange={handleChange} 
+                  />
+                  <DatalistOptions 
+                    csvFilePath={csvFilePath} 
+                    column="fuel" 
+                    filter={selectedmodel} 
+                    filterColumn="model" 
+                  />
+                </div>
+                 {/* Engine */}
+                 <div className="form-group">
+                  <label htmlFor="Engine">Engine :</label>
+                  <input 
+                    list="options-engine" 
+                    id="engine" 
+                    name="engine" 
+                    value={formData.engine}
+                    required
+                    onChange={handleChange} 
+                  />
+                  <DatalistOptions 
+                    csvFilePath={csvFilePath} 
+                    column="engine" 
+                    filter={selectedmodel} 
+                    filterColumn="model" 
+                  />
+                </div>
                 {/* Transmission */}
                 <div className="form-group">
                   <label htmlFor="transmission">Transmission:</label>
@@ -160,49 +212,37 @@ function FormsInput() {
                     required
                     onChange={handleChange} 
                   />
-                  <DatalistOptions csvFilePath={csvFilePath} column="transmission" />
+                  <DatalistOptions 
+                    csvFilePath={csvFilePath} 
+                    column="transmission" 
+                    filter={selectedmodel} 
+                    filterColumn="model" 
+                  />
                 </div>
-                {/* Fuel Type */}
-                <div className="form-group">
-                  <label htmlFor="fuel_type">Fuel Type:</label>
+                 {/* Numbers of doors */}
+                 <div className="form-group">
+                  <label htmlFor="nb_of_doors">Door's number:</label>
                   <input 
-                    list="options-fuel_type" 
-                    id="fuel_type" 
-                    name="fuel_type" 
-                    value={formData.fuel_type}
+                    list="options-nb_of_doors" 
+                    id="nb_of_doors" 
+                    name="nb_of_doors" 
+                    value={formData.nb_of_doors}
                     required
                     onChange={handleChange} 
                   />
-                  <DatalistOptions csvFilePath={csvFilePath} column="fuel_type" />
-                </div>
-                {/* Driven Kilometer */}
-                <div className="form-group">
-                  <label htmlFor="driven_kilometer">Driven Kilometer:</label>
-                  <input 
-                    id="driven_kilometer" 
-                    name="driven_kilometer" 
-                    min="0" 
-                    value={formData.driven_kilometer}
-                    required
-                    onChange={handleChange} 
+                  <DatalistOptions 
+                    csvFilePath={csvFilePath} 
+                    column="nb_of_doors" 
+                    filter={selectedmodel} 
+                    filterColumn="model" 
                   />
-                  <DatalistOptions csvFilePath={csvFilePath} column="driven_kilometer" />
-                </div> 
-                 <p>Estimated Price: {predictedPrice}</p>
+                </div>
                 {/* Submit Button */}
-                <div className='button-sub' >
-                  <input type="submit" value='ESTIMATE' id='sub'></input>
+                <div className='button-sub'>
+                  <input type="submit" value='ESTIMATE' id='sub' />
                 </div>
               </div>
             </form>
-          ) : (
-            <div>
-                <div>
-                
-                </div>
-              <div className="close-container"></div>
-              <button className='close-btn' onClick={() => setSubmittedData(null)}>Close</button>
-            </div>
           )}
         </div>
       </div>
@@ -211,4 +251,3 @@ function FormsInput() {
 }
 
 export default FormsInput;
-
