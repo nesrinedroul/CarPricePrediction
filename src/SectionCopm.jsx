@@ -41,7 +41,7 @@ function SectionComp() {
                         animate={controls}
                         variants={variants}
                     >
-                        Machines With <br/> Future Technology
+                        Project Made by <br/> Future Engineers
                     </motion.h2>
                     <motion.p 
                         className="about__description"
@@ -49,7 +49,7 @@ function SectionComp() {
                         animate={controls}
                         variants={variants}
                     >
-                        Machine learning based website for futuristic cars and high accurate prices, designed to enhance your understanding and showcase leading technology.
+                       Welcome to ESTIMIHALI, your go-to destination for accurate car price estimates. Our user-friendly platform provides customized price charts based on make, model, year, and more. Trust us to deliver transparent reports and expert insights, ensuring informed decisions whether buying or selling. Accessible on-the-go and backed by reliable data, ESTIMIHALI simplifies car valuation for everyone.
                     </motion.p>
                     <motion.a 
                         href="#"

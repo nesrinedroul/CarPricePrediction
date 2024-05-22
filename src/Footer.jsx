@@ -1,43 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 function Footer() {
-    // Function to handle scroll to top
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
-            behavior: 'smooth'  // Smooth scroll to top
+            behavior: 'smooth'
         });
     };
+
+    useEffect(() => {
+        const scrollUpButton = document.getElementById('scroll-up');
+        const handleScroll = () => {
+            if (window.scrollY > 200) {
+                scrollUpButton.style.display = 'block';
+            } else {
+                scrollUpButton.style.display = 'none';
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <>
             <footer className="footer section">
-                <div className="shape shape__big"></div>
-                <div className="shape shape__small"></div>
-                <div className="footer__container container grid">
-                    <div className="footer__content">
-                        <a href="#" className="footer__logo">
-                            <i className="ri-steering-fill"></i>Estimihali
-                        </a>
-                        <p className="footer__description">We offer the most accurate car prices<br/>in the world.</p>
+                <div className="footer__container container">
+                    <a href="#home" className="footer__logo">
+                        <i className="ri-steering-fill"></i> Estimihali
+                    </a>
+                    <div className="footer__links">
+                    <a href="#home" className="footer__link">home</a>
+                        <a href="#about" className="footer__link">About</a>
+                        <a href="#Cars" className="footer__link">Cars</a>
+                        <a href="#STAT" className="footer__link">Statistics</a>
                     </div>
-                    <div className="footer__content">
-                        <h3 className="footer__title">Information</h3>
-                        <ul className="footer__links">
-                            <li><a className="footer__link">Request a quote</a></li>
-                            <li><a href="#" className="footer__link">Find a dealer</a></li>
-                            <li><a href="#" className="footer__link">Contact us</a></li>
-                            <li><a href="#" className="footer__link">Services</a></li>
-                        </ul>
-                    </div>
-                    <div className="footer__content">
-                        <h3 className="footer__title">Company</h3>
-                        <ul className="footer__links">
-                            <li><a href="#" className="footer__link">About</a></li>
-                            <li><a href="#" className="footer__link">Cars</a></li>
-                            <li><a href="#" className="footer__link">History</a></li>
-                            <li><a href="#" className="footer__link">Shop</a></li>
-                        </ul>
+                    <div className="footer__social-links">
+                        <a href="#" className="footer__social-link"><i className="ri-facebook-fill"></i></a>
+                        <a href="#" className="footer__social-link"><i className="ri-twitter-fill"></i></a>
+                        <a href="#" className="footer__social-link"><i className="ri-instagram-fill"></i></a>
+                        <a href="#" className="footer__social-link"><i className="ri-linkedin-fill"></i></a>
                     </div>
                 </div>
             </footer>
@@ -50,4 +55,3 @@ function Footer() {
 }
 
 export default Footer;
-
