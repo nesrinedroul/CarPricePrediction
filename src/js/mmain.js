@@ -22,7 +22,7 @@ const navLink = document.querySelectorAll('.nav__link')
 
 const linkAction = () =>{
     const navMenu = document.getElementById('nav-menu')
-    // When we click on each nav__link, we remove the show-menu class
+    //When we click on each nav__link we remove the show-menu class
     navMenu.classList.remove('show-menu')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
@@ -116,12 +116,12 @@ const sr = ScrollReveal(
         delay:400,
     }
 )
-sr.reveal('.home__title, .popular__container, .features__img')
+sr.reveal('.home__title, .popular__container, .features__img',{delay:500})
 sr.reveal('.home__subtitle',{delay:500})
 sr.reveal('.home__elec',{delay: 600})
 sr.reveal('.home__img',{delay: 700})
 sr.reveal('.home__car-data',{delay: 900 ,interval: 100 , origin:'bottom'})
-sr.reveal('.home__button',{delay: 900 , origin:'bottom'})
+sr.reveal('.home__button',{delay: 1000 , origin:'bottom'})
 sr.reveal('.about__group',{ origin:'left'})
 sr.reveal('.about__data',{ origin:'right'})
 sr.reveal('.features__map',{ delay:600 ,origin:'bottom'})

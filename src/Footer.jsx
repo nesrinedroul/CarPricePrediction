@@ -29,16 +29,14 @@ function Footer() {
         <>
             <footer className="footer section">
                 <div className="footer__container container">
-                    <a href="#" className="footer__logo">
+                    <a href="#home" className="footer__logo">
                         <i className="ri-steering-fill"></i> Estimihali
                     </a>
                     <div className="footer__links">
-                        <a href="#" className="footer__link">Request a quote</a>
+                    <a href="#home" className="footer__link">home</a>
                         <a href="#about" className="footer__link">About</a>
-                        <a href="#" className="footer__link">Cars</a>
-                        <a href="#" className="footer__link">Statistics</a>
-                        <a href="#" className="footer__link">FAQ</a>
-                        <a href="#" className="footer__link">Support</a>
+                        <a href="#Cars" className="footer__link">Cars</a>
+                        <a href="#STAT" className="footer__link">Statistics</a>
                     </div>
                     <div className="footer__social-links">
                         <a href="#" className="footer__social-link"><i className="ri-facebook-fill"></i></a>

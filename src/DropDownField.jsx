@@ -13,7 +13,15 @@ function DatalistOptions({ csvFilePath, column, filter, filterColumn }) {
         if (filter && filterColumn) {
           filteredOptions = filteredOptions.filter(row => row[filterColumn] === filter);
         }
-        const uniqueOptions = [...new Set(filteredOptions.map(row => row[column]))];
+        let uniqueOptions = [...new Set(filteredOptions.map(row => row[column]))];
+
+        if (column === 'engine_size' || column === 'horsepower') {
+          uniqueOptions = uniqueOptions.map(option => {
+            const match = option.match(/\d+(\.\d+)?/);
+            return match ? parseFloat(match[0]) : null;
+          }).filter(option => option !== null);
+        }
+
         setOptions(uniqueOptions);
       },
     });
@@ -30,5 +38,3 @@ function DatalistOptions({ csvFilePath, column, filter, filterColumn }) {
 
 export default DatalistOptions;
 
- 
- 
