@@ -14,6 +14,7 @@ from django.http import HttpResponse
 import numpy as np
 import joblib
 import lightgbm as lgb
+from sklearn.preprocessing import LabelEncoder
 
 class MyAPIView(APIView):
    
@@ -45,22 +46,34 @@ class MyAPIView(APIView):
             nb_of_doors = form.cleaned_data['nb_of_doors']
             horsepower = form.cleaned_data['horsepower']
 
-            # Preprocess the input data
+            # Preprocess the input data for american model
             input_data = preprocess_input(form.cleaned_data)
+            # Preprocess the input data for algerian model
+            input_dataDZ = preprocess_inputDZ(form.cleaned_data)
 
             model_path = os.path.normpath(settings.MODEL_FILE_PATH)
             if not os.path.exists(model_path):
                 return Response({'message': f'Model file not found: {model_path}'}, status=status.HTTP_404_NOT_FOUND)
 
-
             with open(settings.MODEL_FILE_PATH, 'rb') as f:
              lgbm = joblib.load(f)
 
-            
-            # Make prediction using the loaded model
+            # Make prediction using the loaded american model
             predicted_price = lgbm.predict([input_data])
+           
+            # Algerian prediction 
+            algerian_path = os.path.normpath(settings.ALGERIAN_MODEL_FILE_PATH)
+            if not os.path.exists(algerian_path):
+                return Response({'message': f'Model file not found: {model_path}'}, status=status.HTTP_404_NOT_FOUND)
+            
+            with open(settings.ALGERIAN_MODEL_FILE_PATH, 'rb') as k:
+             algerian_model = joblib.load(k)
 
-            return Response({'predicted_price': predicted_price[0]}, status=status.HTTP_200_OK)
+            # Make prediction using the loaded algerian model
+            predicted_algerian_price = algerian_model.predict([input_dataDZ])
+
+
+            return Response({ 'predicted_american_price': predicted_price[0], 'predicted_algerian_price': predicted_algerian_price[0]}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({'message': f'Error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -97,3 +110,52 @@ def preprocess_input(data):
     processed_data = [year, kilometer, nb_of_doors, horsepower] + fuel_encoded + transmission_encoded
 
     return processed_data
+
+
+
+
+def preprocess_inputDZ(data):
+    """
+    Preprocess the input data. The data is expected to be a dictionary with the following keys:
+    year
+    kilometer
+    nb_of_doors (not used)
+    horsepower
+    fuel (one of 'diesel', 'gasoline', 'petrol')
+    transmission (one of 'automatic', 'manual', 'dual clutch')
+    Returns:
+    A list of preprocessed features.
+    """
+
+
+    # Define default values
+    defaults = {
+        'year': 2000,
+        'kilometer': 0,
+        'nb_of_doors': 4,  # Not needed but kept for completeness
+        'horsepower': 100,
+        'fuel': 'gasoline',
+        'transmission': 'manual',
+        'engine' : 1.2
+    }
+
+    # Extract and preprocess numerical features
+    year = float(data.get('year', defaults['year']))
+    kilometer = np.log1p(float(data.get('kilometer', defaults['kilometer'])))
+    horsepower = np.log1p(float(data.get('horsepower', defaults['horsepower'])))
+    engine = float(data.get('engine', defaults['engine']))
+
+    # Label encode the 'fuel' feature
+    fuel_mapping = {'diesel': 0, 'gasoline': 1, 'petrol': 2}
+    fuel = data.get('fuel', defaults['fuel'])
+    fuel_encoded = fuel_mapping.get(fuel, fuel_mapping['gasoline'])
+
+    # Label encode the 'transmission' feature
+    transmission_mapping = {'automatic': 0, 'manual': 1, 'dual clutch': 2}
+    transmission = data.get('transmission', defaults['transmission'])
+    transmission_encoded = transmission_mapping.get(transmission, transmission_mapping['manual'])
+
+    # Combine all features into a single array
+    processed_dataDZ = [year, kilometer,fuel_encoded, transmission_encoded, engine, horsepower ]
+
+    return processed_dataDZ

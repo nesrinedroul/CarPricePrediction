@@ -9,6 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MODEL_FILE_PATH = os.path.join(BASE_DIR,'car_estimation', 'ressources', 'lgbm.joblib')
 
+ALGERIAN_MODEL_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'lgbm_algerian_ouedkniss.joblib')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-r_r)t3q+*+@$x6-xz6pkw974a^sm+3&cp*b(2%jk*2g#grqd2+'
 
