@@ -201,8 +201,8 @@ function FormsInput() {
       newErrors.fuel = 'Fuel type is required and must be a valid option';
     }
 
-    if (!formData.nb_of_doors || formData.nb_of_doors <=2 && formData.nb_of_doors>5) {
-      newErrors.nb_of_doors = 'Number of doors must be 2 or 4';
+    if (!formData.nb_of_doors || formData.nb_of_doors < 2 || formData.nb_of_doors > 4) {
+      newErrors.nb_of_doors = 'Number of doors must be between 2 and 4';
     }
 
     if (!formData.horsepower || formData.horsepower <= 0 || formData.horsepower > 700) {
@@ -244,10 +244,10 @@ function FormsInput() {
       const responseData = await response.json();
       setResponseMessage(`Success: ${responseData.message}`);
       if (priceType === 'american') {
-        setPredictedAmericanPrice(parseFloat(responseData.predicted_american_price).toFixed(2));
+      setPredictedAmericanPrice(parseFloat(responseData.predicted_american_price).toFixed(2));
         setPredictedAlgerianPrice(null);
       } else {
-        setPredictedAlgerianPrice(parseFloat(responseData.predicted_algerian_price).toFixed(2));
+        setPredictedAlgerianPrice(parseFloat(responseData.predicted_algerian_price_hist).toFixed(2));
         setPredictedAmericanPrice(null);
       }
 
@@ -421,6 +421,7 @@ function FormsInput() {
                 <div className="form-group">
                   <label htmlFor="engine">Engine Size (L):</label>
                   <input 
+                  type="number"
                     list="options-engine_size" 
                     id="engine" 
                     name="engine" 
@@ -440,6 +441,7 @@ function FormsInput() {
                 <div className="form-group">
                   <label htmlFor="horsepower">Horsepower (HP):</label>
                   <input 
+                   type="number"
                     list="options-horsepower" 
                     id="horsepower" 
                     name="horsepower" 
