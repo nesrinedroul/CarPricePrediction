@@ -5,7 +5,7 @@
 body {
   font-family: 'Exo', sans-serif;
   background-color: #1a1a1a;
-  color: #e0e0e0;
+  color: #ffffff;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -16,18 +16,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
+  background: #f31111;
 }
 
 .myModal {
   position: fixed;
-  z-index: 1;
+  z-index: 20;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.656);
+  background-color: rgba(0, 0, 0, 0.605);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,23 +36,39 @@ body {
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: rgba(97, 97, 97, 0.192);
+  background-color: rgba(55, 55, 55, 0.414);
   backdrop-filter: blur(13px);
-  margin: 0px;
-  padding: 15px;
-  border: 1px solid #333;
-  border-radius: 10px;
-  width: 45%;
-  max-width: 700px;
+  margin-top: 15px;
+  padding: 25px;
+  width: 70%;
+  max-width: 790px;
   z-index: 20;
-  box-shadow: 0 0 12px rgba(0, 255, 213, 0.482);
+  box-shadow: 0 0 12px rgba(0, 255, 183, 0.788);
 }
-
+.clear-btn {
+    display: inline-block;
+    justify-content: center;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #05ffc1; /* Red background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    
+  }
+  
+  .clear-btn:hover {
+    background-color: #d32f2f; /* Darker red background on hover */
+  }
+  
 .modal-content h1 {
   text-align: center;
   color: #0cf2a5;
-  font-size: 1.8rem;
-  margin-bottom: 12px;
+  font-size: 1.7rem;
+  margin-bottom: 6px;
 }
 
 /* Form details */
@@ -63,13 +79,13 @@ body {
 }
 
 .form-group {
-  width: calc(50% - 10px);
-  margin-bottom: 16px;
+  width: calc(30% - 4px);
+  margin-bottom: 7px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   color: #0eeaa0;
   text-transform: uppercase;
   font-size: 0.9rem;
@@ -77,10 +93,10 @@ body {
 
 .form-group input {
   width: 100%;
-  padding: 10px;
+  padding: 9px;
   background: rgba(42, 42, 42, 0.9);
-  border: 1px solid #0eeaa0;
-  border-radius: 5px;
+  border: 2px solid #0eeaa0;
+  border-radius: 10px;
   color: #0eeaa0;
   outline: none;
   transition: background-color 0.3s, border-color 0.3s;
@@ -133,53 +149,56 @@ body {
 
 /* Results container */
 .results-container {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  gap: 5px;
+  display:inline-flex;
+  flex-direction:row;
+  padding: 3px;
+  gap: 7px;
+  margin-bottom: 7px;
+  width: 100%;
 }
 
 .data-column {
   width:100%;
-  padding: 15px;
-  background-color: rgba(34, 34, 34, 0.769);
-  border-radius: 5px;
+  padding: 5px;
+  border:none;
+  background-color:rgba(25, 25, 25, 0.633) ;
 }
 
 .data-column h3 {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     color: #0eeaa0;
     text-align: center;
   }
   
   .data-column p {
-    margin: 10px 0;
+    max-width: none;
+    margin: 3px;
     color: #ffffff;
-    line-height: 1.6; /* Increases the space between lines */
-    margin-bottom: 6px; /* Adds space below each paragraph */
+    line-height: 1.7; /* Increases the space between lines */
+    margin-bottom: 5px; /* Adds space below each paragraph */
   }
   
   .data-column p div {
     display: flex;
+    padding: 2px;
     flex-wrap: wrap;
     justify-content: space-between;
   } 
 
 .price-column {
-  width: 100%;
-  padding: 8px;
-  background-color: rgba(34, 34, 34, 0.769);
-  border-radius: 50px;
+ width:100%;
+  padding: 60px 0 0 0;
   text-align: center;
-  border: 2px solid #0eeaa0;
+  border: none;
+  border-radius: 8px;
+  background-color:rgba(27, 27, 27, 0.633) ;
 }
 
 .price-column h2 {
-  margin: 0;
+  margin: 15px;
   color: #0eeaa0;
 }
 
-/* Additional styles for form */
 .button-sub {
   text-align: center;
   width: 100%;
@@ -219,16 +238,15 @@ body {
       padding-left: 20px;
   }
   .form-group {
-      width: 100%; /* Make form inputs full width on smaller screens */
+      width: 45%; /* Make form inputs full width on smaller screens */
   }
   .myModal {
-    width: 90%; /* Adjust modal width on small screens */
+    width: 100%; /* Adjust modal width on small screens */
 }
 .modal-content {
-    width: 100%; /* Adjust modal content width for smaller screens */
+    width: 85%; /* Adjust modal content width for smaller screens */
+    max-width: none; /* Ensure the modal content can expand */
 }
-
-
 }
 
 /* VARIABLES CSS*/
@@ -464,13 +482,6 @@ img {
 /* Show menu */
 .show-menu{
     right: 0;
-}
-
-/* Change background header */
-.scroll-header{
-    border-radius: 0 0 1rem 1rem;
-    background-color: var(--body-color);
-    box-shadow: 0 2px 4px hsla(0, 0%, 1%,1);
 }
 
 /* Active link */
@@ -787,7 +798,71 @@ img {
     filter: blur(5px);
 }
 
+button {
+    padding: 10px 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+  }
+  
+  .clear-btn {
+    background-color: #ff0900;
+  }
+  
+  .price-column .back-btn {
+    background-color:rgb(0, 255, 183);
+    color:var(--white-color);
+    border-radius: 0.25rem;
+    font-size:var(--normal-font-size) ;
+    transition: .3s;
+    margin:15px 10px 15px 10px;
+  }
+  .back-btn:hover{
+    
+    background-color: rgb(10, 229, 185)
+  }
+  
+  .estimate-btn {
+    margin:15px 10px 15px 10px;
+    background-color: #15f196;
 
+  }
+  
+  #sub-algerian.estimate-btn {
+    background-color: #15f196
+  }
+  
+  .button-group {
+    display: inline-block;
+    color:var(--white-color);
+    padding: 0.1rem ;
+    border-radius: .29rem;
+    font-size:var(--normal-font-size) ;
+    transition: .3s;
+    justify-content: center;
+  }
+  
+  .button-sub {
+    display: flex;
+    justify-content: center;
+    
+  }
+  
+  .button-clear {
+    display: flex;
+    justify-content: center;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  
+
+  
 /* FEATURES*/
 .features{
     overflow: hidden;
@@ -1319,4 +1394,3 @@ opacity: 1;
         
     }
 }
-

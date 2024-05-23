@@ -6,11 +6,15 @@ import { useModal } from './ModalContext';
 function FormsInput() {
   const csvFilePath = "/myData.csv";
   const { modalIsOpen, closeModal } = useModal();
+  const [availableBrands, setAvailableBrands] = useState([]);
   const [selectedbrand, setSelectedbrand] = useState("");
+  const [availableModels, setAvailableModels] = useState([]);
   const [selectedmodel, setSelectedmodel] = useState("");
   const [availableYears, setAvailableYears] = useState([]);
   const [availableEngines, setAvailableEngines] = useState([]);
   const [availableHorsepower, setAvailableHorsepower] = useState([]);
+  const [availableTransmissions, setAvailableTransmissions] = useState([]);
+  const [availableFuelTypes, setAvailableFuelTypes] = useState([]);
   const [formData, setFormData] = useState({
     brand: '',
     model: '',
@@ -28,6 +32,11 @@ function FormsInput() {
   const [isLoading, setIsLoading] = useState(false);
   const [predictedAmericanPrice, setPredictedAmericanPrice] = useState(null);
   const [predictedAlgerianPrice, setPredictedAlgerianPrice] = useState(null);
+  const [actualPrice, setActualPrice] = useState(null);
+
+  useEffect(() => {
+    fetchBrandData();
+  }, []);
 
   useEffect(() => {
     setFormData(prev => ({
@@ -49,6 +58,17 @@ function FormsInput() {
       fetchEngineData(selectedmodel);
     }
   }, [selectedmodel]);
+
+  const fetchBrandData = () => {
+    Papa.parse(csvFilePath, {
+      download: true,
+      header: true,
+      complete: (result) => {
+        const brands = [...new Set(result.data.map(row => row.brand))];
+        setAvailableBrands(brands);
+      },
+    });
+  };
 
   const fetchModelData = (brand) => {
     Papa.parse(csvFilePath, {
@@ -77,27 +97,52 @@ function FormsInput() {
       download: true,
       header: true,
       complete: (result) => {
-        const engines = result.data.filter(row => row.model === model).map(row => row.engine_size);
-        const horsepower = result.data.filter(row => row.model === model).map(row => row.horsepower);
+        const engines = result.data.filter(row => row.model === model).map(row => parseFloat(row.engine_size));
+        const horsepower = result.data.filter(row => row.model === model).map(row => parseFloat(row.horsepower));
+        const transmissions = result.data.filter(row => row.model === model).map(row => row.transmission);
+        const fuels = result.data.filter(row => row.model === model).map(row => row.fuel);
         setAvailableEngines([...new Set(engines)]);
         setAvailableHorsepower([...new Set(horsepower)]);
+        setAvailableTransmissions([...new Set(transmissions)]);
+        setAvailableFuelTypes([...new Set(fuels)]);
       },
+    });
+  };
+
+  const fetchActualPrice = (data) => {
+    return new Promise((resolve) => {
+      Papa.parse(csvFilePath, {
+        download: true,
+        header: true,
+        complete: (result) => {
+          const filteredData = result.data.filter(row => 
+            row.brand === data.brand &&
+            row.model === data.model &&
+            Math.abs(row.kilometer - data.kilometer) <= 10000 &&
+            Math.abs(row.year - data.year) <= 1
+          );
+          const actualPrices = filteredData.map(row => parseFloat(row.price));
+          const averagePrice = actualPrices.length ? (actualPrices.reduce((a, b) => a + b, 0) / actualPrices.length) : null;
+          resolve(averagePrice);
+        },
+      });
     });
   };
 
   const handleEngineChange = (e) => {
     const engineSize = e.target.value;
-    const selectedEngine = availableEngines.find(engine => engine === engineSize);
+    const numericEngineSize = parseFloat(engineSize);
+    const selectedEngine = availableEngines.find(engine => engine === numericEngineSize);
     if (selectedEngine) {
       setFormData(prevState => ({
         ...prevState,
-        engine: selectedEngine,
+        engine: numericEngineSize,
         horsepower: '',
       }));
     } else {
       setFormData(prevState => ({
         ...prevState,
-        engine: engineSize,
+        engine: numericEngineSize,
         horsepower: '',
       }));
     }
@@ -105,16 +150,17 @@ function FormsInput() {
 
   const handleHorsepowerChange = (e) => {
     const horsepower = e.target.value;
-    const selectedHorsepower = availableHorsepower.find(hp => hp === horsepower);
+    const numericHorsepower = parseFloat(horsepower);
+    const selectedHorsepower = availableHorsepower.find(hp => hp === numericHorsepower);
     if (selectedHorsepower) {
       setFormData(prevState => ({
         ...prevState,
-        horsepower: selectedHorsepower,
+        horsepower: numericHorsepower,
       }));
     } else {
       setFormData(prevState => ({
         ...prevState,
-        horsepower: horsepower,
+        horsepower: numericHorsepower,
       }));
     }
   };
@@ -131,32 +177,32 @@ function FormsInput() {
     const newErrors = {};
     const currentYear = new Date().getFullYear();
 
-    if (!formData.brand) {
-      newErrors.brand = 'Brand is required';
+    if (!formData.brand || !availableBrands.includes(formData.brand)) {
+      newErrors.brand = 'Brand is required and must be a valid option';
     }
 
-    if (!formData.model) {
-      newErrors.model = 'Model is required';
+    if (!formData.model || !availableModels.includes(formData.model)) {
+      newErrors.model = 'Model is required and must be a valid option';
     }
 
-    if (!formData.year || formData.year < Math.min(...availableYears) || formData.year > currentYear) {
-      newErrors.year = `Year must be greater or equal to ${Math.min(...availableYears)}`;
+    if (!formData.year || formData.year < 1990 || formData.year > currentYear) {
+      newErrors.year = `Year must be between 1990 and ${currentYear}`;
     }
 
     if (!formData.kilometer || formData.kilometer < 0 || formData.kilometer > 1000000) {
       newErrors.kilometer = 'Kilometer must be a positive number and less than a million km';
     }
 
-    if (!formData.transmission) {
-      newErrors.transmission = 'Transmission is required';
+    if (!formData.transmission || !availableTransmissions.includes(formData.transmission)) {
+      newErrors.transmission = 'Transmission is required and must be a valid option';
     }
 
-    if (!formData.fuel) {
-      newErrors.fuel = 'Fuel type is required';
+    if (!formData.fuel || !availableFuelTypes.includes(formData.fuel)) {
+      newErrors.fuel = 'Fuel type is required and must be a valid option';
     }
 
-    if (!formData.nb_of_doors || formData.nb_of_doors != 2 && formData.nb_of_doors != 4) {
-      newErrors.nb_of_doors = 'Number of doors must be between 2 and 4';
+    if (!formData.nb_of_doors || formData.nb_of_doors <=2 && formData.nb_of_doors>5) {
+      newErrors.nb_of_doors = 'Number of doors must be 2 or 4';
     }
 
     if (!formData.horsepower || formData.horsepower <= 0 || formData.horsepower > 700) {
@@ -204,6 +250,10 @@ function FormsInput() {
         setPredictedAlgerianPrice(parseFloat(responseData.predicted_algerian_price).toFixed(2));
         setPredictedAmericanPrice(null);
       }
+
+      const actual = await fetchActualPrice(formData);
+      setActualPrice(actual);
+
       setSubmittedData(fullData); // Set submitted data to display it later
 
       console.log('Response data:', responseData);
@@ -234,12 +284,14 @@ function FormsInput() {
     setPredictedAmericanPrice(null);
     setPredictedAlgerianPrice(null);
     setSubmittedData(null);
+    setActualPrice(null);
   };
 
   const handleBack = () => {
     setPredictedAmericanPrice(null);
     setPredictedAlgerianPrice(null);
     setResponseMessage("");
+    setActualPrice(null);
   };
 
   return (
@@ -273,6 +325,7 @@ function FormsInput() {
               <div className="price-column">
                 {predictedAmericanPrice !== null && <h2>Estimated American Price: {predictedAmericanPrice} $</h2>}
                 {predictedAlgerianPrice !== null && <h2>Estimated Algerian Price: {predictedAlgerianPrice} DZD</h2>}
+                {actualPrice !== null && <h2>Actual Price: {actualPrice} {priceType === 'american' ? '$' : 'DZD'}</h2>}
                 <div className='button-group'>
                   <button className='clear-btn' onClick={handleClear}>Clear</button>
                   <button className='back-btn' onClick={handleBack}>Back</button>
@@ -322,7 +375,7 @@ function FormsInput() {
                     type="number" 
                     id="year" 
                     name="year" 
-                    min={Math.min(...availableYears)}
+                    min="1990"
                     max={new Date().getFullYear()} 
                     value={formData.year}
                     required
@@ -337,7 +390,8 @@ function FormsInput() {
                     type="number"
                     id="kilometer" 
                     name="kilometer" 
-                    min="0" 
+                    min="0"
+                    max="1000000" 
                     value={formData.kilometer}
                     required
                     onChange={handleChange} 
@@ -444,7 +498,7 @@ function FormsInput() {
                 {/* Submit Buttons */}
                 <div className='button-sub'>
                   <button onClick={(e) => handleSubmit(e, 'american')} id='sub-american' className='estimate-btn'>ESTIMATE AMERICAN</button>
-                  <button onClick={(e) => handleSubmit(e, 'algerian')} id='sub-algerian' className='estimate-btn'>ESTIMATE DZ</button>
+                  <button onClick={(e) => handleSubmit(e, 'algerian')} id='sub-algerian' className='estimate-btn'>ESTIMATE ALGERIAN</button>
                 </div>
                 {submittedData && (
                   <div className='button-clear'>
