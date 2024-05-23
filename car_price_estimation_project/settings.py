@@ -11,6 +11,14 @@ MODEL_FILE_PATH = os.path.join(BASE_DIR,'car_estimation', 'ressources', 'lgbm.jo
 
 ALGERIAN_MODEL_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'lgbm_algerian_ouedkniss.joblib')
 
+ALGERIAN_MODEL_HIST_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'histboost_ouedkniss.joblib')
+
+BRAND_MAPPING_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'brand_mapping_smoothed.joblib')
+
+FUEL_MAPPING_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'fuel_mapping_smoothed.joblib')
+
+TRANSMISSION_MAPPING_FILE_PATH = os.path.join(BASE_DIR, 'car_estimation', 'ressources', 'transmission_mapping_smoothed.joblib')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-r_r)t3q+*+@$x6-xz6pkw974a^sm+3&cp*b(2%jk*2g#grqd2+'
 
