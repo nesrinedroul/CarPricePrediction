@@ -174,8 +174,4 @@ CarPricePrediction/
 - Data Science learners who want hands-on ML practice.
 - Developers who want to integrate ML into a web app.
 
-📌 **Next Steps?** Try running the project locally and improving the model accuracy!
 
----
-
-Let me know if you need further clarification or specific details! 😊
